@@ -401,7 +401,7 @@ class SOPHandler(SimpleHTTPRequestHandler):
                 if filename.endswith('.md'):
                     file_path = Path(root) / filename
                     rel_path = file_path.relative_to(vault_path)
-                    folder = str(rel_path.parent) if rel_path.parent != Path('.') else 'Root'
+                    folder = rel_path.parent if rel_path.parent != Path('.') else 'Root'
                     
                     if folder not in categories:
                         categories[folder] = []
@@ -556,7 +556,7 @@ class SOPHandler(SimpleHTTPRequestHandler):
         <div class="categories">"""
 
         # Generate category sections
-        for category_name, files in categories.items():
+        for category_name, files in sorted(categories.items()):
             info = category_info.get(category_name, {'icon': '📁', 'color': '#95a5a6', 'desc': 'Documentation files'})
             
             html += f'''

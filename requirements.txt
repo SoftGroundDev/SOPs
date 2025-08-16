@@ -1,2 +1,2 @@
-# No external dependencies needed - uses Python standard library only
-# Python 3.6+ required for pathlib and other features
+markdown>=3.4
+pygments>=2.12.0  # for syntax highlighting in code blocks

@@ -11,6 +11,7 @@ from urllib.parse import unquote
 import datetime
 import markdown
 from markdown.extensions import codehilite, toc, tables, fenced_code
+import mimetypes
 
 class SOPHandler(SimpleHTTPRequestHandler):
     def __init__(self, *args, **kwargs):
@@ -36,8 +37,85 @@ class SOPHandler(SimpleHTTPRequestHandler):
         elif self.path == '/vault' or self.path == '/vault/':
             self.serve_vault_index()
             return
+        elif self.path.startswith('/images/'):
+            # Serve image files from images directory
+            self.serve_image()
+            return
+        elif self.path.startswith('/vault/') and self.is_image_file(self.path):
+            # Serve images from within vault folders
+            self.serve_vault_image()
+            return
         
         return super().do_GET()
+    
+    def is_image_file(self, path):
+        """Check if the file is an image based on its extension"""
+        image_extensions = {'.jpg', '.jpeg', '.png', '.gif', '.svg', '.webp', '.bmp', '.tiff', '.ico'}
+        return Path(path).suffix.lower() in image_extensions
+    
+    def serve_image(self):
+        """Serve image files from the images directory"""
+        # URL decode the path and remove the /images/ prefix
+        decoded_path = unquote(self.path)
+        
+        if decoded_path.startswith('/images/'):
+            # Remove /images/ prefix to get the relative path within the images directory
+            relative_path = decoded_path[8:]  # Remove '/images/'
+            file_path = Path('images') / relative_path
+        else:
+            self.send_error(404, f"Invalid image path: {decoded_path}")
+            return
+        
+        if file_path.exists() and self.is_image_file(str(file_path)):
+            try:
+                # Guess the content type
+                content_type, _ = mimetypes.guess_type(str(file_path))
+                if not content_type:
+                    content_type = 'application/octet-stream'
+                
+                self.send_response(200)
+                self.send_header('Content-type', content_type)
+                self.send_header('Cache-Control', 'public, max-age=86400')  # Cache for 1 day
+                self.end_headers()
+                
+                with open(file_path, 'rb') as f:
+                    self.wfile.write(f.read())
+            except Exception as e:
+                self.send_error(500, f"Error serving image: {e}")
+        else:
+            self.send_error(404, f"Image not found: {file_path}")
+    
+    def serve_vault_image(self):
+        """Serve image files from within vault folders"""
+        # URL decode the path and remove the /vault/ prefix
+        decoded_path = unquote(self.path)
+        
+        if decoded_path.startswith('/vault/'):
+            # Remove /vault/ prefix to get the relative path within the vault
+            relative_path = decoded_path[7:]  # Remove '/vault/'
+            file_path = Path('vault') / relative_path
+        else:
+            self.send_error(404, f"Invalid vault image path: {decoded_path}")
+            return
+        
+        if file_path.exists() and self.is_image_file(str(file_path)):
+            try:
+                # Guess the content type
+                content_type, _ = mimetypes.guess_type(str(file_path))
+                if not content_type:
+                    content_type = 'application/octet-stream'
+                
+                self.send_response(200)
+                self.send_header('Content-type', content_type)
+                self.send_header('Cache-Control', 'public, max-age=86400')  # Cache for 1 day
+                self.end_headers()
+                
+                with open(file_path, 'rb') as f:
+                    self.wfile.write(f.read())
+            except Exception as e:
+                self.send_error(500, f"Error serving vault image: {e}")
+        else:
+            self.send_error(404, f"Vault image not found: {file_path}")
     
     def serve_vault_index(self):
         """Generate an index page for the vault"""

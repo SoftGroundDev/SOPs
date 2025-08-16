@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="400" height="300" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background -->
+  <rect width="400" height="300" fill="#f8fafc"/>
+  
+  <!-- Title -->
+  <text x="200" y="30" text-anchor="middle" font-family="Arial, sans-serif" font-size="18" font-weight="bold" fill="#1e293b">
+    SOP Process Flow Example
+  </text>
+  
+  <!-- Start node -->
+  <circle cx="200" cy="80" r="25" fill="#22c55e" stroke="#16a34a" stroke-width="2"/>
+  <text x="200" y="85" text-anchor="middle" font-family="Arial, sans-serif" font-size="12" fill="white" font-weight="bold">START</text>
+  
+  <!-- Arrow 1 -->
+  <line x1="200" y1="105" x2="200" y2="130" stroke="#64748b" stroke-width="2" marker-end="url(#arrowhead)"/>
+  
+  <!-- Process box 1 -->
+  <rect x="150" y="140" width="100" height="40" fill="#3b82f6" stroke="#2563eb" stroke-width="2" rx="5"/>
+  <text x="200" y="165" text-anchor="middle" font-family="Arial, sans-serif" font-size="11" fill="white" font-weight="bold">
+    Review Request
+  </text>
+  
+  <!-- Arrow 2 -->
+  <line x1="200" y1="180" x2="200" y2="200" stroke="#64748b" stroke-width="2" marker-end="url(#arrowhead)"/>
+  
+  <!-- Decision diamond -->
+  <polygon points="200,210 230,230 200,250 170,230" fill="#f59e0b" stroke="#d97706" stroke-width="2"/>
+  <text x="200" y="235" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" fill="white" font-weight="bold">
+    Approved?
+  </text>
+  
+  <!-- Yes arrow -->
+  <line x1="230" y1="230" x2="280" y2="230" stroke="#64748b" stroke-width="2" marker-end="url(#arrowhead)"/>
+  <text x="255" y="225" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" fill="#16a34a" font-weight="bold">Yes</text>
+  
+  <!-- No arrow -->
+  <line x1="170" y1="230" x2="120" y2="230" stroke="#64748b" stroke-width="2" marker-end="url(#arrowhead)"/>
+  <text x="145" y="225" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" fill="#dc2626" font-weight="bold">No</text>
+  
+  <!-- Reject box -->
+  <rect x="70" y="210" width="80" height="40" fill="#dc2626" stroke="#b91c1c" stroke-width="2" rx="5"/>
+  <text x="110" y="235" text-anchor="middle" font-family="Arial, sans-serif" font-size="11" fill="white" font-weight="bold">
+    Send Rejection
+  </text>
+  
+  <!-- Approve box -->
+  <rect x="290" y="210" width="80" height="40" fill="#22c55e" stroke="#16a34a" stroke-width="2" rx="5"/>
+  <text x="330" y="235" text-anchor="middle" font-family="Arial, sans-serif" font-size="11" fill="white" font-weight="bold">
+    Process Request
+  </text>
+  
+  <!-- End arrows -->
+  <line x1="110" y1="250" x2="110" y2="270" stroke="#64748b" stroke-width="2" marker-end="url(#arrowhead)"/>
+  <line x1="330" y1="250" x2="330" y2="270" stroke="#64748b" stroke-width="2" marker-end="url(#arrowhead)"/>
+  
+  <!-- End nodes -->
+  <circle cx="110" cy="280" r="15" fill="#64748b" stroke="#475569" stroke-width="2"/>
+  <text x="110" y="285" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" fill="white" font-weight="bold">END</text>
+  
+  <circle cx="330" cy="280" r="15" fill="#64748b" stroke="#475569" stroke-width="2"/>
+  <text x="330" y="285" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" fill="white" font-weight="bold">END</text>
+  
+  <!-- Arrow marker definition -->
+  <defs>
+    <marker id="arrowhead" markerWidth="10" markerHeight="7" 
+     refX="9" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#64748b"/>
+    </marker>
+  </defs>
+</svg>

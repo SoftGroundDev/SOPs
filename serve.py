@@ -78,6 +78,76 @@ class SOPHandler(SimpleHTTPRequestHandler):
         else:
             self.send_error(404, f"File not found: {file_path}")
 
+    def get_vault_navigation(self):
+        """Generate navigation HTML for the sidebar"""
+        vault_path = Path('vault')
+        categories = {}
+        
+        for root, dirs, filenames in os.walk(vault_path):
+            # Skip hidden directories
+            dirs[:] = [d for d in dirs if not d.startswith('.')]
+            for filename in filenames:
+                if filename.endswith('.md'):
+                    file_path = Path(root) / filename
+                    rel_path = file_path.relative_to(vault_path)
+                    folder = str(rel_path.parent) if rel_path.parent != Path('.') else 'Root'
+                    
+                    if folder not in categories:
+                        categories[folder] = []
+                    categories[folder].append(rel_path)
+        
+        # Sort categories and files within each category
+        for category in categories:
+            categories[category].sort()
+        
+        # Get category icons
+        category_info = {
+            'Operations': {'icon': '⚙️'},
+            'Emergency': {'icon': '🚨'},
+            'templates': {'icon': '📝'},
+            'Root': {'icon': '📋'}
+        }
+        
+        nav_html = ''
+        for category_name, files in categories.items():
+            info = category_info.get(category_name, {'icon': '📁'})
+            nav_html += f'''
+            <div class="nav-category">
+                <div class="nav-category-header" onclick="toggleCategory('{category_name}')">
+                    <span class="nav-icon">{info['icon']}</span>
+                    <span class="nav-title">{category_name}</span>
+                    <span class="nav-toggle">▼</span>
+                </div>
+                <ul class="nav-files" id="nav-{category_name}">'''
+            
+            for file_path in files:
+                file_url = f"/vault/{file_path}"
+                file_name = file_path.stem
+                
+                # Determine file icon
+                if 'emergency' in file_name.lower() or 'incident' in file_name.lower():
+                    file_icon = '🚨'
+                elif 'template' in file_name.lower():
+                    file_icon = '📝'
+                elif 'backup' in file_name.lower() or 'database' in file_name.lower():
+                    file_icon = '💾'
+                elif 'health' in file_name.lower() or 'check' in file_name.lower():
+                    file_icon = '🏥'
+                else:
+                    file_icon = '📄'
+                
+                nav_html += f'''
+                    <li>
+                        <a href="{file_url}" class="nav-file-link">
+                            <span class="nav-file-icon">{file_icon}</span>
+                            <span class="nav-file-name">{file_name}</span>
+                        </a>
+                    </li>'''
+            
+            nav_html += '</ul></div>'
+        
+        return nav_html
+
     def markdown_to_html(self, content, file_path):
         """Convert markdown to richly formatted HTML using the markdown library"""
         # Configure markdown with useful extensions
@@ -130,6 +200,9 @@ class SOPHandler(SimpleHTTPRequestHandler):
             modified_date = "Unknown"
             file_size = "Unknown"
 
+        # Get navigation HTML
+        nav_html = self.get_vault_navigation()
+
         return f"""<!DOCTYPE html>
 <html lang="en">
 <head>
@@ -141,16 +214,126 @@ class SOPHandler(SimpleHTTPRequestHandler):
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Helvetica Neue', sans-serif; 
             margin: 0; padding: 0; line-height: 1.7; 
             background: #f8fafc; color: #334155;
+            display: flex; height: 100vh;
+        }}
+        
+        /* Sidebar Navigation Styles */
+        .sidebar {{
+            width: 280px; background: #1e293b; color: white;
+            box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
+            overflow-y: auto; flex-shrink: 0;
+            border-right: 1px solid #334155;
+        }}
+        
+        .sidebar-header {{
+            padding: 20px; background: #0f172a; border-bottom: 1px solid #334155;
+            text-align: center;
+        }}
+        
+        .sidebar-title {{
+            font-size: 1.2rem; font-weight: 700; margin: 0;
+            color: #e2e8f0;
+        }}
+        
+        .sidebar-subtitle {{
+            font-size: 0.8rem; color: #94a3b8; margin: 5px 0 0;
+        }}
+        
+        .nav-category {{
+            margin: 8px 0; border-bottom: 1px solid #334155;
+        }}
+        
+        .nav-category-header {{
+            padding: 12px 20px; cursor: pointer; display: flex;
+            align-items: center; background: #1e293b;
+            transition: background-color 0.2s;
+        }}
+        
+        .nav-category-header:hover {{
+            background: #334155;
+        }}
+        
+        .nav-icon {{
+            margin-right: 8px; font-size: 1.1rem;
+        }}
+        
+        .nav-title {{
+            flex: 1; font-weight: 600; font-size: 0.9rem;
+        }}
+        
+        .nav-toggle {{
+            font-size: 0.8rem; transition: transform 0.2s;
+        }}
+        
+        .nav-toggle.expanded {{
+            transform: rotate(180deg);
+        }}
+        
+        .nav-files {{
+            list-style: none; padding: 0; margin: 0;
+            max-height: 0; overflow: hidden;
+            transition: max-height 0.3s ease;
+        }}
+        
+        .nav-files.expanded {{
+            max-height: 500px;
+        }}
+        
+        .nav-files li {{
+            border-bottom: 1px solid #2d3748;
+        }}
+        
+        .nav-file-link {{
+            display: flex; align-items: center; padding: 10px 20px 10px 40px;
+            color: #cbd5e1; text-decoration: none; font-size: 0.85rem;
+            transition: all 0.2s;
+        }}
+        
+        .nav-file-link:hover {{
+            background: #334155; color: #f1f5f9;
+            padding-left: 45px;
+        }}
+        
+        .nav-file-link.active {{
+            background: #3b82f6; color: white;
+            font-weight: 600;
+        }}
+        
+        .nav-file-icon {{
+            margin-right: 8px; font-size: 1rem;
+        }}
+        
+        .nav-file-name {{
+            flex: 1; white-space: nowrap; overflow: hidden;
+            text-overflow: ellipsis;
+        }}
+        
+        /* Main Content Area */
+        .main-content {{
+            flex: 1; display: flex; flex-direction: column;
+            overflow: hidden;
+        }}
+        
+        .content-wrapper {{
+            flex: 1; overflow-y: auto; padding: 20px;
         }}
         
         .container {{ 
-            max-width: 900px; margin: 0 auto; padding: 20px;
+            max-width: 900px; margin: 0 auto;
         }}
         
         .header {{ 
             background: white; border-radius: 12px; padding: 24px; 
             margin-bottom: 24px; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
             border: 1px solid #e2e8f0;
+        }}
+        
+        /* Mobile Toggle Button */
+        .sidebar-toggle {{
+            display: none; position: fixed; top: 15px; left: 15px;
+            z-index: 1000; background: #1e293b; color: white;
+            border: none; padding: 10px; border-radius: 6px;
+            cursor: pointer; font-size: 1.2rem;
         }}
         
         .breadcrumb {{ 
@@ -312,6 +495,19 @@ class SOPHandler(SimpleHTTPRequestHandler):
         
         /* Responsive design */
         @media (max-width: 768px) {{
+            .sidebar {{
+                position: fixed; top: 0; left: -280px; height: 100vh;
+                z-index: 999; transition: left 0.3s ease;
+            }}
+            .sidebar.mobile-open {{
+                left: 0;
+            }}
+            .sidebar-toggle {{
+                display: block !important;
+            }}
+            .main-content {{
+                margin-left: 0;
+            }}
             .container {{ 
                 margin: 0; padding: 12px; 
             }}
@@ -330,39 +526,112 @@ class SOPHandler(SimpleHTTPRequestHandler):
                 display: block; margin: 8px 0;
             }}
         }}
+        
+        /* Overlay for mobile sidebar */
+        .sidebar-overlay {{
+            display: none; position: fixed; top: 0; left: 0;
+            width: 100%; height: 100%; background: rgba(0, 0, 0, 0.5);
+            z-index: 998;
+        }}
+        .sidebar-overlay.active {{
+            display: block;
+        }}
     </style>
 </head>
 <body>
-    <div class="container">
-        <div class="header">
-            <div class="breadcrumb">
-                {breadcrumb}
-            </div>
-            <div class="document-meta">
-                <strong>📄 Document:</strong> {file_path.stem}<br>
-                <strong>📂 Category:</strong> {file_path.parent if file_path.parent != Path('.') else 'Root'}<br>
-                <strong>🕒 Last Modified:</strong> {modified_date}<br>
-                <strong>📏 Size:</strong> {file_size}
-            </div>
+    <button class="sidebar-toggle" onclick="toggleMobileSidebar()">☰</button>
+    <div class="sidebar-overlay" onclick="closeMobileSidebar()"></div>
+    
+    <div class="sidebar">
+        <div class="sidebar-header">
+            <h1 class="sidebar-title">📚 SOPs</h1>
+            <p class="sidebar-subtitle">Knowledge Base</p>
         </div>
-        
-        <div class="content">
-            {html_content}
-        </div>
-        
-        <div class="actions">
-            <a href="/vault" class="action-btn">← Back to Vault</a>
-            <a href="javascript:window.print()" class="action-btn secondary">🖨️ Print</a>
-            <a href="javascript:copyLink()" class="action-btn secondary">🔗 Copy Link</a>
+        <nav class="sidebar-nav">
+            {nav_html}
+        </nav>
+    </div>
+    
+    <div class="main-content">
+        <div class="content-wrapper">
+            <div class="container">
+                <div class="header">
+                    <div class="breadcrumb">
+                        {breadcrumb}
+                    </div>
+                    <div class="document-meta">
+                        <strong>📄 Document:</strong> {file_path.stem}<br>
+                        <strong>📂 Category:</strong> {file_path.parent if file_path.parent != Path('.') else 'Root'}<br>
+                        <strong>🕒 Last Modified:</strong> {modified_date}<br>
+                        <strong>📏 Size:</strong> {file_size}
+                    </div>
+                </div>
+                
+                <div class="content">
+                    {html_content}
+                </div>
+                
+                <div class="actions">
+                    <a href="/vault" class="action-btn">← Back to Vault</a>
+                    <a href="javascript:window.print()" class="action-btn secondary">🖨️ Print</a>
+                    <a href="javascript:copyLink()" class="action-btn secondary">🔗 Copy Link</a>
+                </div>
+            </div>
         </div>
     </div>
     
     <script>
+        function toggleCategory(categoryName) {{
+            const toggle = document.querySelector(`#nav-${{categoryName}}`).previousElementSibling.querySelector('.nav-toggle');
+            const files = document.querySelector(`#nav-${{categoryName}}`);
+            
+            if (files.classList.contains('expanded')) {{
+                files.classList.remove('expanded');
+                toggle.classList.remove('expanded');
+            }} else {{
+                files.classList.add('expanded');
+                toggle.classList.add('expanded');
+            }}
+        }}
+        
+        function toggleMobileSidebar() {{
+            const sidebar = document.querySelector('.sidebar');
+            const overlay = document.querySelector('.sidebar-overlay');
+            
+            sidebar.classList.toggle('mobile-open');
+            overlay.classList.toggle('active');
+        }}
+        
+        function closeMobileSidebar() {{
+            const sidebar = document.querySelector('.sidebar');
+            const overlay = document.querySelector('.sidebar-overlay');
+            
+            sidebar.classList.remove('mobile-open');
+            overlay.classList.remove('active');
+        }}
+        
         function copyLink() {{
             navigator.clipboard.writeText(window.location.href).then(() => {{
                 alert('Link copied to clipboard!');
             }});
         }}
+        
+        // Highlight current file in navigation
+        document.addEventListener('DOMContentLoaded', function() {{
+            const currentPath = window.location.pathname;
+            const navLinks = document.querySelectorAll('.nav-file-link');
+            
+            navLinks.forEach(link => {{
+                if (link.getAttribute('href') === currentPath) {{
+                    link.classList.add('active');
+                    // Expand the parent category
+                    const category = link.closest('.nav-files');
+                    const toggle = category.previousElementSibling.querySelector('.nav-toggle');
+                    category.classList.add('expanded');
+                    toggle.classList.add('expanded');
+                }}
+            }});
+        }});
         
         // Auto-scroll to fragment if present
         if (window.location.hash) {{
@@ -389,7 +658,7 @@ class SOPHandler(SimpleHTTPRequestHandler):
 </html>"""
 
     def generate_vault_html(self, vault_path):
-        """Generate HTML for the vault index with enhanced navigation"""
+        """Generate HTML for the vault index with enhanced navigation and sidebar"""
         # Organize files by category
         categories = {}
         file_count = 0
@@ -412,6 +681,9 @@ class SOPHandler(SimpleHTTPRequestHandler):
         for category in categories:
             categories[category].sort()
         
+        # Get navigation HTML
+        nav_html = self.get_vault_navigation()
+        
         # Get category icons and descriptions
         category_info = {
             'Operations': {'icon': '⚙️', 'color': '#3498db', 'desc': 'Daily operational procedures'},
@@ -429,10 +701,114 @@ class SOPHandler(SimpleHTTPRequestHandler):
     <style>
         body {{ 
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Helvetica Neue', sans-serif; 
-            margin: 0; padding: 20px; line-height: 1.6; 
+            margin: 0; padding: 0; line-height: 1.6; 
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            min-height: 100vh;
+            min-height: 100vh; display: flex;
         }}
+        
+        /* Sidebar Navigation Styles */
+        .sidebar {{
+            width: 280px; background: #1e293b; color: white;
+            box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
+            overflow-y: auto; flex-shrink: 0;
+            border-right: 1px solid #334155;
+        }}
+        
+        .sidebar-header {{
+            padding: 20px; background: #0f172a; border-bottom: 1px solid #334155;
+            text-align: center;
+        }}
+        
+        .sidebar-title {{
+            font-size: 1.2rem; font-weight: 700; margin: 0;
+            color: #e2e8f0;
+        }}
+        
+        .sidebar-subtitle {{
+            font-size: 0.8rem; color: #94a3b8; margin: 5px 0 0;
+        }}
+        
+        .nav-category {{
+            margin: 8px 0; border-bottom: 1px solid #334155;
+        }}
+        
+        .nav-category-header {{
+            padding: 12px 20px; cursor: pointer; display: flex;
+            align-items: center; background: #1e293b;
+            transition: background-color 0.2s;
+        }}
+        
+        .nav-category-header:hover {{
+            background: #334155;
+        }}
+        
+        .nav-icon {{
+            margin-right: 8px; font-size: 1.1rem;
+        }}
+        
+        .nav-title {{
+            flex: 1; font-weight: 600; font-size: 0.9rem;
+        }}
+        
+        .nav-toggle {{
+            font-size: 0.8rem; transition: transform 0.2s;
+        }}
+        
+        .nav-toggle.expanded {{
+            transform: rotate(180deg);
+        }}
+        
+        .nav-files {{
+            list-style: none; padding: 0; margin: 0;
+            max-height: 0; overflow: hidden;
+            transition: max-height 0.3s ease;
+        }}
+        
+        .nav-files.expanded {{
+            max-height: 500px;
+        }}
+        
+        .nav-files li {{
+            border-bottom: 1px solid #2d3748;
+        }}
+        
+        .nav-file-link {{
+            display: flex; align-items: center; padding: 10px 20px 10px 40px;
+            color: #cbd5e1; text-decoration: none; font-size: 0.85rem;
+            transition: all 0.2s;
+        }}
+        
+        .nav-file-link:hover {{
+            background: #334155; color: #f1f5f9;
+            padding-left: 45px;
+        }}
+        
+        .nav-file-icon {{
+            margin-right: 8px; font-size: 1rem;
+        }}
+        
+        .nav-file-name {{
+            flex: 1; white-space: nowrap; overflow: hidden;
+            text-overflow: ellipsis;
+        }}
+        
+        /* Main Content Area */
+        .main-content {{
+            flex: 1; overflow-y: auto;
+        }}
+        
+        .container {{
+            max-width: 1200px; margin: 0 auto; padding: 20px;
+        }}
+        
+        /* Mobile Toggle Button */
+        .sidebar-toggle {{
+            display: none; position: fixed; top: 15px; left: 15px;
+            z-index: 1000; background: #1e293b; color: white;
+            border: none; padding: 10px; border-radius: 6px;
+            cursor: pointer; font-size: 1.2rem;
+        }}
+        
         .header {{ 
             color: white; padding: 40px 20px; margin-bottom: 30px;
             text-align: center;
@@ -458,10 +834,6 @@ class SOPHandler(SimpleHTTPRequestHandler):
             background-clip: text;
         }}
         .stat-label {{ color: #666; font-size: 0.9rem; font-weight: 500; }}
-        
-        .container {{
-            max-width: 1200px; margin: 0 auto;
-        }}
         
         .categories {{ 
             display: grid; 
@@ -521,7 +893,18 @@ class SOPHandler(SimpleHTTPRequestHandler):
             opacity: 0.8; font-size: 0.9rem;
         }}
         
+        /* Responsive design */
         @media (max-width: 768px) {{
+            .sidebar {{
+                position: fixed; top: 0; left: -280px; height: 100vh;
+                z-index: 999; transition: left 0.3s ease;
+            }}
+            .sidebar.mobile-open {{
+                left: 0;
+            }}
+            .sidebar-toggle {{
+                display: block !important;
+            }}
             body {{ padding: 10px; }}
             .header h1 {{ font-size: 2rem; }}
             .header p {{ font-size: 1rem; }}
@@ -533,27 +916,51 @@ class SOPHandler(SimpleHTTPRequestHandler):
             }}
             .category {{ padding: 20px; }}
         }}
+        
+        /* Overlay for mobile sidebar */
+        .sidebar-overlay {{
+            display: none; position: fixed; top: 0; left: 0;
+            width: 100%; height: 100%; background: rgba(0, 0, 0, 0.5);
+            z-index: 998;
+        }}
+        .sidebar-overlay.active {{
+            display: block;
+        }}
     </style>
 </head>
 <body>
-    <div class="container">
-        <div class="header">
-            <h1>📚 SOPs Knowledge Base</h1>
-            <p>Standard Operating Procedures & Documentation</p>
+    <button class="sidebar-toggle" onclick="toggleMobileSidebar()">☰</button>
+    <div class="sidebar-overlay" onclick="closeMobileSidebar()"></div>
+    
+    <div class="sidebar">
+        <div class="sidebar-header">
+            <h1 class="sidebar-title">📚 SOPs</h1>
+            <p class="sidebar-subtitle">Knowledge Base</p>
         </div>
-        
-        <div class="stats">
-            <div class="stat">
-                <div class="stat-number">{file_count}</div>
-                <div class="stat-label">Documents</div>
+        <nav class="sidebar-nav">
+            {nav_html}
+        </nav>
+    </div>
+    
+    <div class="main-content">
+        <div class="container">
+            <div class="header">
+                <h1>📚 SOPs Knowledge Base</h1>
+                <p>Standard Operating Procedures & Documentation</p>
             </div>
-            <div class="stat">
-                <div class="stat-number">{len(categories)}</div>
-                <div class="stat-label">Categories</div>
+            
+            <div class="stats">
+                <div class="stat">
+                    <div class="stat-number">{file_count}</div>
+                    <div class="stat-label">Documents</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-number">{len(categories)}</div>
+                    <div class="stat-label">Categories</div>
+                </div>
             </div>
-        </div>
-        
-        <div class="categories">"""
+            
+            <div class="categories">"""
 
         # Generate category sections
         for category_name, files in categories.items():
@@ -598,12 +1005,53 @@ class SOPHandler(SimpleHTTPRequestHandler):
             </div>'''
         
         html += '''
-        </div>
-        
-        <div class="footer">
-            <p>🔧 Powered by Python HTTP Server | 📝 Markdown Support Enabled</p>
+            </div>
+            
+            <div class="footer">
+                <p>🔧 Powered by Python HTTP Server | 📝 Markdown Support Enabled</p>
+            </div>
         </div>
     </div>
+    
+    <script>
+        function toggleCategory(categoryName) {
+            const toggle = document.querySelector(`#nav-${categoryName}`).previousElementSibling.querySelector('.nav-toggle');
+            const files = document.querySelector(`#nav-${categoryName}`);
+            
+            if (files.classList.contains('expanded')) {
+                files.classList.remove('expanded');
+                toggle.classList.remove('expanded');
+            } else {
+                files.classList.add('expanded');
+                toggle.classList.add('expanded');
+            }
+        }
+        
+        function toggleMobileSidebar() {
+            const sidebar = document.querySelector('.sidebar');
+            const overlay = document.querySelector('.sidebar-overlay');
+            
+            sidebar.classList.toggle('mobile-open');
+            overlay.classList.toggle('active');
+        }
+        
+        function closeMobileSidebar() {
+            const sidebar = document.querySelector('.sidebar');
+            const overlay = document.querySelector('.sidebar-overlay');
+            
+            sidebar.classList.remove('mobile-open');
+            overlay.classList.remove('active');
+        }
+        
+        // Expand all categories by default on the index page
+        document.addEventListener('DOMContentLoaded', function() {
+            const allFiles = document.querySelectorAll('.nav-files');
+            const allToggles = document.querySelectorAll('.nav-toggle');
+            
+            allFiles.forEach(files => files.classList.add('expanded'));
+            allToggles.forEach(toggle => toggle.classList.add('expanded'));
+        });
+    </script>
 </body>
 </html>'''
         

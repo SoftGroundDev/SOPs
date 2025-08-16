@@ -86,7 +86,94 @@ const config: QuartzConfig = {
     pageTitleSuffix: "",
     enableSPA: true,
     enablePopovers: true,
-    analytics
+    analytics: {
+      provider: "plausible",
+    },
+    locale: "en-US",
+    baseUrl: "your-site-name.netlify.app", // Replace with your actual Netlify domain
+    ignorePatterns: ["private", "templates", ".obsidian"],
+    defaultDateType: "modified",
+    // ...existing code...
+````
+
+## 3. Add Build Script (Optional Enhancement)
+
+You might want to add a specific build script for production in your `package.json`:
+
+````json
+{
+  // ...existing code...
+  "scripts": {
+    "quartz": "./quartz/bootstrap-cli.mjs",
+    "docs": "npx quartz build --serve -d docs",
+    "build": "npx quartz build",
+    "build:netlify": "npx quartz build",
+    "check": "tsc --noEmit && npx prettier . --check",
+    "format": "npx prettier . --write",
+    "test": "tsx --test",
+    "profile": "0x -D prof ./quartz/bootstrap-cli.mjs build --concurrency=1"
+  },
+  // ...existing code...
+}
+````
+
+## 4. Deploy to Netlify
+
+Now you can deploy to Netlify in one of these ways:
+
+### Option A: Git-based Deployment (Recommended)
+1. Push your code to GitHub (your repo is already at `SoftGroundDev/SOPs`)
+2. Go to [netlify.com](https://netlify.com) and sign up/login
+3. Click "New site from Git"
+4. Connect to GitHub and select your `SOPs` repository
+5. Netlify should automatically detect the `netlify.toml` settings
+6. Click "Deploy site"
+
+### Option B: Manual Deployment
+1. Build your site locally: `npx quartz build`
+2. Go to [netlify.com](https://netlify.com)
+3. Drag and drop your `` folder to deploy
+
+## 5. Update Your Domain Configuration
+
+After deployment:
+1. Note your Netlify domain (e.g., `amazing-site-123456.netlify.app`)
+2. Update the `baseUrl` in your `quartz.config.ts` with this domain
+3. Redeploy
+
+## 6. Optional: Custom Domain
+
+If you want to use a custom domain:
+1. In Netlify dashboard, go to Site settings > Domain management
+2. Add your custom domain
+3. Update the `baseUrl` in `quartz.config.ts` accordingly
+
+Your Quartz site should now be ready for Netlify deployment! The configuration ensures proper caching, security headers, and handles the SPA routing correctly.
+
+---
+
+_**User**_
+
+create the netlify toml
+
+---
+
+_**Assistant**_
+
+I'll create the `netlify.toml` configuration file for your Quartz project. Perfect! I've created the `netlify.toml` configuration file for your Quartz project. This configuration includes:
+
+- **Build settings**: Uses `npx quartz build` as the build command and publishes the `` directory
+- **Node.js environment**: Specifies Node.js 22 and npm 10.9.2 for consistent builds
+- **Security headers**: Adds important security headers like X-Frame-Options, XSS protection, etc.
+- **Caching headers**: Optimizes caching for static assets (JS, CSS, fonts) with long-term cache control
+- **SPA routing**: Handles client-side routing by redirecting unknown routes to the 404 page
+
+Your Quartz site is now ready for Netlify deployment! You can either:
+
+1. **Git deployment**: Push to GitHub and connect your repository to Netlify (recommended)
+2. **Manual deployment**: Run `npx quartz build` locally and drag the `` folder to Netlify
+
+Don't forget to update the `baseUrl` in your `quartz.config.ts` file once you get your Netlify domain!
 
 ---
 

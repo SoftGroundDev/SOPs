@@ -74,7 +74,7 @@ python3 serve.py
 # Build and preview static site
 npm run build
 npm run preview  
-# Visit: http://localhost:8080
+# Visit: http://localhost:8000
 ```
 
 ## 📝 Updating Content

@@ -12,7 +12,7 @@
     "open": "./sops.sh open",
     "build": "python3 -m venv .venv 2>/dev/null || true && source .venv/bin/activate && pip install -r requirements.txt && python3 build_static.py",
     "netlify-build": "./deploy.sh",
-    "preview": "npm run build && cd dist && python3 -m http.server 8080"
+    "preview": "npm run build && cd dist && python3 -m http.server 8000"
   },
   "keywords": [
     "obsidian",

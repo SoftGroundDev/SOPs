@@ -236,3 +236,19 @@ The site should now display proper content instead of the blank Quartz installat
 
 ---
 
+_**User**_
+
+the docs folder content still isn't showing up in the site
+
+---
+
+_**Assistant**_
+
+I can see that your site is now displaying the homepage content correctly, but you're right that the docs folder content isn't showing up. Looking at your site, I notice the "Documentation" link in the Available Documentation section isn't working as a proper link.
+
+Let me check your current file structure and see what's happening with the docs content: I found the issue! Your documentation is in the `` folder, but Quartz only processes content from the `` folder by default. The docs folder is outside of the content directory that Quartz builds from.
+
+Let me fix this by moving your docs into the content folder: Now let's verify the content was copied correctly: Perfect! Now let's check the docs index file to make sure it has proper frontmatter: I need to update the docs index file to be more appropriate for your SOPs site and also fix the wikilink in your main index file: 
+
+---
+

@@ -1,0 +1,24 @@
+[build]
+  command = "python3 -m venv .venv && source .venv/bin/activate && pip install -r requirements.txt && python3 build_static.py"
+  publish = "dist"
+  
+[build.environment]
+  PYTHON_VERSION = "3.8"
+
+# Redirect root to index
+[[redirects]]
+  from = "/"
+  to = "/index.html"
+  status = 200
+
+# Handle clean URLs for vault files
+[[redirects]]
+  from = "/vault/:slug"
+  to = "/vault/:slug.html"
+  status = 200
+
+# Handle 404s gracefully
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 404

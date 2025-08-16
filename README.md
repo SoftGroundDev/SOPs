@@ -70,6 +70,29 @@ python3 serve.py             # Direct Python
 - **Fast**: Lightweight HTTP server starts instantly
 - **Compatible**: Works with any Obsidian vault
 - **Portable**: Self-contained, easy to deploy
+- **Netlify Ready**: Static site generation for easy web deployment
+
+## 🌐 Deploy to Netlify
+
+This project is configured for easy deployment to Netlify as a static site:
+
+```bash
+# Build static site for deployment
+python3 build_static.py
+
+# Or use npm script
+npm run build
+```
+
+The build generates a complete static site in the `dist/` directory that can be deployed to Netlify, GitHub Pages, or any static hosting service.
+
+**Quick Netlify Setup:**
+1. Push this repo to GitHub/GitLab
+2. Connect to Netlify
+3. Build command: `python3 build_static.py`
+4. Publish directory: `dist`
+
+See [NETLIFY.md](NETLIFY.md) for detailed deployment instructions.
 
 ## 🔧 Development
 

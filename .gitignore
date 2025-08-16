@@ -19,6 +19,16 @@ __pycache__/
 *.pyc
 *.pyo
 
+# Build output
+dist/
+build/
+
+# Environment
+.env
+.venv/
+venv/
+env/
+
 # OS
 .DS_Store
 Thumbs.db

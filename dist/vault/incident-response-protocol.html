@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SOP: Incident Response Protocol - SOPs Knowledge Base</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 2rem;
+            background-color: #fafafa;
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 3rem;
+            padding-bottom: 2rem;
+            border-bottom: 2px solid #e0e0e0;
+        }
+        
+        .header h1 {
+            color: #2c3e50;
+            margin-bottom: 0.5rem;
+        }
+        
+        .header p {
+            color: #7f8c8d;
+            font-size: 1.1rem;
+        }
+        
+        .main-nav {
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+        
+        .nav-link {
+            display: inline-block;
+            margin: 0 1rem;
+            padding: 0.5rem 1rem;
+            background-color: #3498db;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+        }
+        
+        .nav-link:hover {
+            background-color: #2980b9;
+        }
+        
+        .content {
+            background: white;
+            padding: 2rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .vault-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+        
+        .vault-section {
+            background: #f8f9fa;
+            padding: 1.5rem;
+            border-radius: 8px;
+            border-left: 4px solid #3498db;
+        }
+        
+        .vault-section h3 {
+            color: #2c3e50;
+            margin-top: 0;
+        }
+        
+        .file-list {
+            list-style: none;
+            padding: 0;
+        }
+        
+        .file-list li {
+            margin: 0.5rem 0;
+        }
+        
+        .file-list a {
+            color: #3498db;
+            text-decoration: none;
+            padding: 0.25rem 0;
+            display: block;
+            border-radius: 4px;
+            transition: background-color 0.3s;
+        }
+        
+        .file-list a:hover {
+            background-color: #ecf0f1;
+            padding-left: 0.5rem;
+        }
+        
+        .back-link {
+            display: inline-block;
+            margin-bottom: 1rem;
+            color: #3498db;
+            text-decoration: none;
+            font-weight: bold;
+        }
+        
+        .back-link:hover {
+            text-decoration: underline;
+        }
+        
+        /* Markdown content styling */
+        .content h1, .content h2, .content h3, .content h4, .content h5, .content h6 {
+            color: #2c3e50;
+            margin-top: 2rem;
+            margin-bottom: 1rem;
+        }
+        
+        .content h1 {
+            border-bottom: 2px solid #3498db;
+            padding-bottom: 0.5rem;
+        }
+        
+        .content code {
+            background-color: #f1f2f6;
+            padding: 0.2rem 0.4rem;
+            border-radius: 3px;
+            font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+        }
+        
+        .content pre {
+            background-color: #2f3542;
+            color: #f1f2f6;
+            padding: 1rem;
+            border-radius: 5px;
+            overflow-x: auto;
+        }
+        
+        .content pre code {
+            background: none;
+            padding: 0;
+        }
+        
+        .content blockquote {
+            border-left: 4px solid #3498db;
+            margin: 1rem 0;
+            padding: 0.5rem 1rem;
+            background-color: #f8f9fa;
+        }
+        
+        .content table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1rem 0;
+        }
+        
+        .content th, .content td {
+            border: 1px solid #ddd;
+            padding: 0.75rem;
+            text-align: left;
+        }
+        
+        .content th {
+            background-color: #f8f9fa;
+            font-weight: bold;
+        }
+        
+        /* Obsidian-style internal links */
+        .internal-link {
+            color: #3498db;
+            text-decoration: none;
+            font-weight: 500;
+        }
+        
+        .internal-link:hover {
+            text-decoration: underline;
+        }
+        
+        @media (max-width: 768px) {
+            body {
+                padding: 1rem;
+            }
+            
+            .vault-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .nav-link {
+                display: block;
+                margin: 0.5rem 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>SOPs Knowledge Base</h1>
+        <p>Standard Operating Procedures & Documentation</p>
+    </div>
+    
+    <nav class="main-nav"><a href="/" class="nav-link">🏠 Home</a><a href="/" class="nav-link">📚 Browse All</a></nav>
+    
+    <div class="content">
+        <a href="/" class="back-link">← Back to Index</a><h1 id="sop-incident-response-protocol">SOP: Incident Response Protocol</h1>
+<p><strong>Purpose:</strong> Provide a structured approach to handling system incidents and outages
+<strong>Scope:</strong> All system incidents affecting production services
+<strong>Owner:</strong> Operations Team / Incident Commander
+<strong>Last Updated:</strong> August 16, 2025</p>
+<h2 id="prerequisites">Prerequisites</h2>
+<ul>
+<li>[ ] Incident detected and confirmed</li>
+<li>[ ] Communication channels established</li>
+<li>[ ] Incident Commander assigned</li>
+<li>[ ] Access to all necessary systems and tools</li>
+</ul>
+<h2 id="steps">Steps</h2>
+<h3 id="phase-1-initial-response-0-5-minutes">Phase 1: Initial Response (0-5 minutes)</h3>
+<ol>
+<li><strong>Assess Severity</strong>: Determine incident severity level</li>
+<li>P1: Complete service outage</li>
+<li>P2: Major functionality impacted</li>
+<li>P3: Minor functionality impacted</li>
+<li>P4: No user impact</li>
+<li><strong>Notify Stakeholders</strong>: Send initial notification</li>
+<li><strong>Assign Incident Commander</strong>: Designate lead responder</li>
+<li><strong>Create War Room</strong>: Set up communication channel</li>
+<li><strong>Document Start Time</strong>: Record incident start in system</li>
+</ol>
+<h3 id="phase-2-investigation-and-containment-5-30-minutes">Phase 2: Investigation and Containment (5-30 minutes)</h3>
+<ol>
+<li><strong>Gather Information</strong>:</li>
+<li>Check monitoring dashboards</li>
+<li>Review recent changes</li>
+<li>Examine error logs</li>
+<li>Interview witnesses</li>
+<li><strong>Identify Root Cause</strong>: Determine what went wrong</li>
+<li><strong>Implement Containment</strong>: Stop the problem from spreading</li>
+<li><strong>Assess Impact</strong>: Document affected services and users</li>
+<li><strong>Update Stakeholders</strong>: Provide status update</li>
+</ol>
+<h3 id="phase-3-resolution-30-minutes-2-hours">Phase 3: Resolution (30 minutes - 2 hours)</h3>
+<ol>
+<li><strong>Develop Fix Strategy</strong>: Plan the resolution approach</li>
+<li><strong>Implement Solution</strong>: Apply the fix carefully</li>
+<li><strong>Test Resolution</strong>: Verify the fix works</li>
+<li><strong>Monitor System</strong>: Watch for additional issues</li>
+<li><strong>Confirm Recovery</strong>: Validate full service restoration</li>
+</ol>
+<h3 id="phase-4-communication-and-follow-up">Phase 4: Communication and Follow-up</h3>
+<ol>
+<li><strong>Send Recovery Notice</strong>: Notify all stakeholders</li>
+<li><strong>Update Status Page</strong>: Reflect current system status</li>
+<li><strong>Schedule Post-mortem</strong>: Plan review meeting</li>
+<li><strong>Document Timeline</strong>: Record all actions taken</li>
+<li><strong>Close Incident</strong>: Mark as resolved in tracking system</li>
+</ol>
+<h2 id="severity-levels">Severity Levels</h2>
+<table>
+<thead>
+<tr>
+<th>Level</th>
+<th>Description</th>
+<th>Response Time</th>
+<th>Escalation</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>P1</td>
+<td>Complete outage</td>
+<td>5 minutes</td>
+<td>Immediate CEO notification</td>
+</tr>
+<tr>
+<td>P2</td>
+<td>Major impact</td>
+<td>15 minutes</td>
+<td>Director notification</td>
+</tr>
+<tr>
+<td>P3</td>
+<td>Minor impact</td>
+<td>1 hour</td>
+<td>Team lead notification</td>
+</tr>
+<tr>
+<td>P4</td>
+<td>No user impact</td>
+<td>Next business day</td>
+<td>Standard process</td>
+</tr>
+</tbody>
+</table>
+<h2 id="communication-templates">Communication Templates</h2>
+<h3 id="initial-alert">Initial Alert</h3>
+<div class="highlight"><pre><span></span><code><span class="err">🚨</span><span class="w"> </span><span class="n">INCIDENT</span><span class="w"> </span><span class="n">ALERT</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">P</span><span class="p">[</span><span class="n">X</span><span class="p">]</span>
+<span class="nl">Service</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="n">Service</span><span class="w"> </span><span class="n">Name</span><span class="p">]</span>
+<span class="nl">Impact</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="n">Brief</span><span class="w"> </span><span class="n">description</span><span class="p">]</span>
+<span class="nl">Status</span><span class="p">:</span><span class="w"> </span><span class="n">Investigating</span>
+<span class="nl">ETA</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="n">Estimated</span><span class="w"> </span><span class="n">resolution</span><span class="w"> </span><span class="n">time</span><span class="p">]</span>
+<span class="nl">Updates</span><span class="p">:</span><span class="w"> </span><span class="n">Every</span><span class="w"> </span><span class="mi">30</span><span class="w"> </span><span class="n">minutes</span>
+<span class="nl">IC</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="n">Incident</span><span class="w"> </span><span class="n">Commander</span><span class="p">]</span>
+</code></pre></div>
+
+<h3 id="update-message">Update Message</h3>
+<div class="highlight"><pre><span></span><code><span class="err">📊</span><span class="w"> </span><span class="n">INCIDENT</span><span class="w"> </span><span class="n">UPDATE</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">P</span><span class="p">[</span><span class="n">X</span><span class="p">]</span>
+<span class="nl">Service</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="n">Service</span><span class="w"> </span><span class="n">Name</span><span class="p">]</span>
+<span class="nl">Status</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="n">Current</span><span class="w"> </span><span class="n">status</span><span class="p">]</span>
+<span class="nl">Progress</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="n">What</span><span class="err">&#39;</span><span class="n">s</span><span class="w"> </span><span class="n">been</span><span class="w"> </span><span class="n">done</span><span class="p">]</span>
+<span class="n">Next</span><span class="w"> </span><span class="n">Steps</span><span class="o">:</span><span class="w"> </span><span class="p">[</span><span class="n">What</span><span class="err">&#39;</span><span class="n">s</span><span class="w"> </span><span class="n">happening</span><span class="w"> </span><span class="n">next</span><span class="p">]</span>
+<span class="nl">ETA</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="n">Updated</span><span class="w"> </span><span class="n">estimate</span><span class="p">]</span>
+</code></pre></div>
+
+<h3 id="resolution-message">Resolution Message</h3>
+<div class="highlight"><pre><span></span><code><span class="err">✅</span><span class="w"> </span><span class="n">INCIDENT</span><span class="w"> </span><span class="n">RESOLVED</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">P</span><span class="p">[</span><span class="n">X</span><span class="p">]</span>
+<span class="nl">Service</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="n">Service</span><span class="w"> </span><span class="n">Name</span><span class="p">]</span>
+<span class="nl">Resolution</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="n">What</span><span class="w"> </span><span class="n">was</span><span class="w"> </span><span class="n">fixed</span><span class="p">]</span>
+<span class="nl">Duration</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="n">Total</span><span class="w"> </span><span class="n">time</span><span class="p">]</span>
+<span class="n">Post</span><span class="o">-</span><span class="n">mortem</span><span class="o">:</span><span class="w"> </span><span class="p">[</span><span class="n">Date</span><span class="o">/</span><span class="n">time</span><span class="w"> </span><span class="n">scheduled</span><span class="p">]</span>
+</code></pre></div>
+
+<h2 id="verification">Verification</h2>
+<ul>
+<li>[ ] Incident properly classified</li>
+<li>[ ] All stakeholders notified</li>
+<li>[ ] Root cause identified</li>
+<li>[ ] Resolution implemented and tested</li>
+<li>[ ] Full service recovery confirmed</li>
+<li>[ ] Documentation completed</li>
+<li>[ ] Post-mortem scheduled</li>
+</ul>
+<h2 id="troubleshooting">Troubleshooting</h2>
+<table>
+<thead>
+<tr>
+<th>Issue</th>
+<th>Symptoms</th>
+<th>Solution</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Can't access systems</td>
+<td>No connectivity</td>
+<td>Use backup access methods, check VPN</td>
+</tr>
+<tr>
+<td>Unknown root cause</td>
+<td>Unclear failure point</td>
+<td>Systematically check each component</td>
+</tr>
+<tr>
+<td>Multiple failures</td>
+<td>Cascading problems</td>
+<td>Focus on primary issue first</td>
+</tr>
+<tr>
+<td>Communication breakdown</td>
+<td>Stakeholders not informed</td>
+<td>Use backup notification methods</td>
+</tr>
+</tbody>
+</table>
+<h2 id="contact-information">Contact Information</h2>
+<h3 id="escalation-chain">Escalation Chain</h3>
+<ol>
+<li><strong>Team Lead</strong>: [Name] - [Phone] - [Email]</li>
+<li><strong>Director</strong>: [Name] - [Phone] - [Email]</li>
+<li><strong>VP Engineering</strong>: [Name] - [Phone] - [Email]</li>
+<li><strong>CEO</strong>: [Name] - [Phone] - [Email]</li>
+</ol>
+<h3 id="key-personnel">Key Personnel</h3>
+<ul>
+<li><strong>Database Admin</strong>: [Contact info]</li>
+<li><strong>Network Engineer</strong>: [Contact info]</li>
+<li><strong>Security Team</strong>: [Contact info]</li>
+<li><strong>External Vendor</strong>: [Contact info]</li>
+</ul>
+<h2 id="related-procedures">Related Procedures</h2>
+<ul>
+<li><a href="/vault/system-recovery-procedures.html" class="internal-link">System Recovery Procedures</a></li>
+<li><a href="/vault/communication-templates.html" class="internal-link">Communication Templates</a></li>
+<li><a href="/vault/post-mortem-process.html" class="internal-link">Post-mortem Process</a></li>
+<li><a href="/vault/status-page-updates.html" class="internal-link">Status Page Updates</a></li>
+</ul>
+<h2 id="revision-history">Revision History</h2>
+<table>
+<thead>
+<tr>
+<th>Date</th>
+<th>Changes</th>
+<th>Author</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>2025-08-16</td>
+<td>Initial version</td>
+<td>Operations Team</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<p><em>Tags: #sop #emergency #incident #response #critical #p1</em></p>
+    </div>
+</body>
+</html>

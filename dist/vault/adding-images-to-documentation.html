@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Adding Images to Your SOP Documentation - SOPs Knowledge Base</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 2rem;
+            background-color: #fafafa;
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 3rem;
+            padding-bottom: 2rem;
+            border-bottom: 2px solid #e0e0e0;
+        }
+        
+        .header h1 {
+            color: #2c3e50;
+            margin-bottom: 0.5rem;
+        }
+        
+        .header p {
+            color: #7f8c8d;
+            font-size: 1.1rem;
+        }
+        
+        .main-nav {
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+        
+        .nav-link {
+            display: inline-block;
+            margin: 0 1rem;
+            padding: 0.5rem 1rem;
+            background-color: #3498db;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+        }
+        
+        .nav-link:hover {
+            background-color: #2980b9;
+        }
+        
+        .content {
+            background: white;
+            padding: 2rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .vault-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+        
+        .vault-section {
+            background: #f8f9fa;
+            padding: 1.5rem;
+            border-radius: 8px;
+            border-left: 4px solid #3498db;
+        }
+        
+        .vault-section h3 {
+            color: #2c3e50;
+            margin-top: 0;
+        }
+        
+        .file-list {
+            list-style: none;
+            padding: 0;
+        }
+        
+        .file-list li {
+            margin: 0.5rem 0;
+        }
+        
+        .file-list a {
+            color: #3498db;
+            text-decoration: none;
+            padding: 0.25rem 0;
+            display: block;
+            border-radius: 4px;
+            transition: background-color 0.3s;
+        }
+        
+        .file-list a:hover {
+            background-color: #ecf0f1;
+            padding-left: 0.5rem;
+        }
+        
+        .back-link {
+            display: inline-block;
+            margin-bottom: 1rem;
+            color: #3498db;
+            text-decoration: none;
+            font-weight: bold;
+        }
+        
+        .back-link:hover {
+            text-decoration: underline;
+        }
+        
+        /* Markdown content styling */
+        .content h1, .content h2, .content h3, .content h4, .content h5, .content h6 {
+            color: #2c3e50;
+            margin-top: 2rem;
+            margin-bottom: 1rem;
+        }
+        
+        .content h1 {
+            border-bottom: 2px solid #3498db;
+            padding-bottom: 0.5rem;
+        }
+        
+        .content code {
+            background-color: #f1f2f6;
+            padding: 0.2rem 0.4rem;
+            border-radius: 3px;
+            font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+        }
+        
+        .content pre {
+            background-color: #2f3542;
+            color: #f1f2f6;
+            padding: 1rem;
+            border-radius: 5px;
+            overflow-x: auto;
+        }
+        
+        .content pre code {
+            background: none;
+            padding: 0;
+        }
+        
+        .content blockquote {
+            border-left: 4px solid #3498db;
+            margin: 1rem 0;
+            padding: 0.5rem 1rem;
+            background-color: #f8f9fa;
+        }
+        
+        .content table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1rem 0;
+        }
+        
+        .content th, .content td {
+            border: 1px solid #ddd;
+            padding: 0.75rem;
+            text-align: left;
+        }
+        
+        .content th {
+            background-color: #f8f9fa;
+            font-weight: bold;
+        }
+        
+        /* Obsidian-style internal links */
+        .internal-link {
+            color: #3498db;
+            text-decoration: none;
+            font-weight: 500;
+        }
+        
+        .internal-link:hover {
+            text-decoration: underline;
+        }
+        
+        @media (max-width: 768px) {
+            body {
+                padding: 1rem;
+            }
+            
+            .vault-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .nav-link {
+                display: block;
+                margin: 0.5rem 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>SOPs Knowledge Base</h1>
+        <p>Standard Operating Procedures & Documentation</p>
+    </div>
+    
+    <nav class="main-nav"><a href="/" class="nav-link">🏠 Home</a><a href="/" class="nav-link">📚 Browse All</a></nav>
+    
+    <div class="content">
+        <a href="/" class="back-link">← Back to Index</a><h1 id="adding-images-to-your-sop-documentation">Adding Images to Your SOP Documentation</h1>
+<p>This guide explains how to add pictures, diagrams, screenshots, and other visual content to your SOP documentation.</p>
+<h2 id="image-directory-structure">📁 Image Directory Structure</h2>
+<p>Your SOP system supports images in two main locations:</p>
+<h3 id="1-global-images-directory-images">1. Global Images Directory (<code>/images/</code>)</h3>
+<div class="highlight"><pre><span></span><code>images/
+├── diagrams/          # System diagrams, architecture charts
+├── screenshots/       # Application screenshots, UI elements  
+├── flowcharts/        # Process flowcharts
+└── [other-folders]/   # Custom categories
+</code></pre></div>
+
+<h3 id="2-vault-images-directory-vaultimages">2. Vault Images Directory (<code>/vault/images/</code>)</h3>
+<div class="highlight"><pre><span></span><code>vault/
+├── images/            # Images specific to vault content
+├── Operations/
+├── Emergency/
+└── templates/
+</code></pre></div>
+
+<h2 id="how-to-add-images">🖼️ How to Add Images</h2>
+<h3 id="method-1-using-global-images-directory">Method 1: Using Global Images Directory</h3>
+<ol>
+<li>
+<p><strong>Add your image file</strong> to the appropriate subfolder in <code>/images/</code>:
+   <code>images/screenshots/login-screen.png
+   images/diagrams/network-topology.jpg
+   images/flowcharts/incident-response.svg</code></p>
+</li>
+<li>
+<p><strong>Reference in markdown</strong> using:
+   <code>markdown
+   ![Alt Text](/images/screenshots/login-screen.png)
+   ![Network Diagram](/images/diagrams/network-topology.jpg)
+   ![Process Flow](/images/flowcharts/incident-response.svg)</code></p>
+</li>
+</ol>
+<h3 id="method-2-using-vault-images-directory">Method 2: Using Vault Images Directory</h3>
+<ol>
+<li>
+<p><strong>Add your image file</strong> to <code>/vault/images/</code>:
+   <code>vault/images/emergency-contacts.png
+   vault/images/server-room-layout.jpg</code></p>
+</li>
+<li>
+<p><strong>Reference in markdown</strong> using:
+   <code>markdown
+   ![Emergency Contacts](/vault/images/emergency-contacts.png)
+   ![Server Room](/vault/images/server-room-layout.jpg)</code></p>
+</li>
+</ol>
+<h3 id="method-3-co-located-images">Method 3: Co-located Images</h3>
+<p>You can also place images directly in the same folder as your markdown files:</p>
+<div class="highlight"><pre><span></span><code>vault/Operations/
+├── Daily System Health Check.md
+└── server-status-example.png
+</code></pre></div>
+
+<p>Then reference with:</p>
+<div class="highlight"><pre><span></span><code>![<span class="nt">Server Status Example</span>](<span class="na">server-status-example.png</span>)
+</code></pre></div>
+
+<h2 id="supported-image-formats">🎨 Supported Image Formats</h2>
+<ul>
+<li><strong>JPEG/JPG</strong> (<code>.jpg</code>, <code>.jpeg</code>) - Best for photographs</li>
+<li><strong>PNG</strong> (<code>.png</code>) - Best for screenshots, diagrams with transparency</li>
+<li><strong>SVG</strong> (<code>.svg</code>) - Best for scalable graphics, logos</li>
+<li><strong>GIF</strong> (<code>.gif</code>) - For simple animations</li>
+<li><strong>WebP</strong> (<code>.webp</code>) - Modern format with better compression</li>
+<li><strong>BMP</strong> (<code>.bmp</code>) - Basic bitmap format</li>
+<li><strong>TIFF</strong> (<code>.tiff</code>) - High quality format</li>
+</ul>
+<h2 id="markdown-image-syntax">📝 Markdown Image Syntax</h2>
+<h3 id="basic-image">Basic Image</h3>
+<div class="highlight"><pre><span></span><code>![<span class="nt">Alt Text</span>](<span class="na">path/to/image.png</span>)
+</code></pre></div>
+
+<h3 id="image-with-title-tooltip">Image with Title (tooltip)</h3>
+<div class="highlight"><pre><span></span><code>![<span class="nt">Alt Text</span>](<span class="na">path/to/image.png &quot;This shows on hover&quot;</span>)
+</code></pre></div>
+
+<h3 id="image-with-custom-size-html">Image with Custom Size (HTML)</h3>
+<div class="highlight"><pre><span></span><code><span class="p">&lt;</span><span class="nt">img</span> <span class="na">src</span><span class="o">=</span><span class="s">&quot;/images/diagrams/architecture.png&quot;</span> <span class="na">alt</span><span class="o">=</span><span class="s">&quot;System Architecture&quot;</span> <span class="na">width</span><span class="o">=</span><span class="s">&quot;600&quot;</span> <span class="na">height</span><span class="o">=</span><span class="s">&quot;400&quot;</span><span class="p">&gt;</span>
+</code></pre></div>
+
+<h3 id="image-with-caption">Image with Caption</h3>
+<div class="highlight"><pre><span></span><code>![<span class="nt">System Dashboard</span>](<span class="na">/images/screenshots/dashboard.png</span>)
+<span class="ge">*Figure 1: Main system dashboard showing key metrics*</span>
+</code></pre></div>
+
+<h3 id="linked-image">Linked Image</h3>
+<div class="highlight"><pre><span></span><code>[<span class="nt">![Clickable Image</span>](<span class="na">/images/thumb.png</span>)](/images/full-size.png)
+</code></pre></div>
+
+<h2 id="best-practices">🎯 Best Practices</h2>
+<h3 id="file-organization">File Organization</h3>
+<ul>
+<li>Use <strong>descriptive filenames</strong>: <code>login-process-flowchart.png</code> instead of <code>image1.png</code></li>
+<li>Create <strong>logical folders</strong> based on content type or SOP category</li>
+<li>Keep <strong>consistent naming</strong> conventions across your documentation</li>
+</ul>
+<h3 id="image-optimization">Image Optimization</h3>
+<ul>
+<li><strong>Compress images</strong> to reduce file sizes and improve loading times</li>
+<li>Use <strong>appropriate formats</strong>:</li>
+<li>PNG for screenshots and images with text</li>
+<li>JPEG for photographs</li>
+<li>SVG for diagrams and icons</li>
+<li>Consider <strong>image dimensions</strong> - most SOPs work well with 800px width max</li>
+</ul>
+<h3 id="accessibility">Accessibility</h3>
+<ul>
+<li>Always include <strong>meaningful alt text</strong> describing the image content</li>
+<li>Use <strong>descriptive captions</strong> for complex diagrams</li>
+<li>Ensure <strong>sufficient contrast</strong> in screenshots and diagrams</li>
+</ul>
+<h3 id="file-size-guidelines">File Size Guidelines</h3>
+<ul>
+<li><strong>Screenshots</strong>: Keep under 500KB</li>
+<li><strong>Diagrams</strong>: Keep under 200KB  </li>
+<li><strong>Photos</strong>: Keep under 1MB</li>
+<li><strong>Icons</strong>: Keep under 50KB</li>
+</ul>
+<h2 id="example-usage-in-sops">📋 Example Usage in SOPs</h2>
+<h3 id="emergency-procedures">Emergency Procedures</h3>
+<div class="highlight"><pre><span></span><code><span class="gh"># Server Room Fire Emergency</span>
+
+<span class="gu">## Evacuation Route</span>
+![<span class="nt">Evacuation Route</span>](<span class="na">/images/diagrams/server-room-evacuation.png</span>)
+<span class="ge">*Follow the highlighted path to the nearest emergency exit*</span>
+
+<span class="gu">## Fire Suppression Controls</span>
+![<span class="nt">Fire Control Panel</span>](<span class="na">/images/screenshots/fire-panel.jpg &quot;Fire suppression control panel&quot;</span>)
+</code></pre></div>
+
+<h3 id="system-operations">System Operations</h3>
+<div class="highlight"><pre><span></span><code><span class="gh"># Database Backup Verification</span>
+
+<span class="gu">## Step 1: Access Backup Dashboard</span>
+![<span class="nt">Backup Dashboard</span>](<span class="na">/images/screenshots/backup-dashboard.png</span>)
+
+<span class="gu">## Step 2: Verify Backup Status</span>
+Look for the green checkmarks as shown below:
+&lt;img src=&quot;/images/screenshots/backup-status.png&quot; alt=&quot;Backup Status&quot; width=&quot;400&quot;&gt;
+</code></pre></div>
+
+<h3 id="process-flowcharts">Process Flowcharts</h3>
+<div class="highlight"><pre><span></span><code><span class="gh"># Incident Response Protocol</span>
+
+<span class="gu">## Decision Flow</span>
+![<span class="nt">Incident Response Flow</span>](<span class="na">/images/flowcharts/incident-response.svg</span>)
+<span class="ge">*This flowchart guides you through the complete incident response process*</span>
+</code></pre></div>
+
+<h2 id="technical-details">🔧 Technical Details</h2>
+<h3 id="image-caching">Image Caching</h3>
+<ul>
+<li>Images are cached for 24 hours to improve performance</li>
+<li>Clear browser cache if you update an image and don't see changes</li>
+</ul>
+<h3 id="image-urls">Image URLs</h3>
+<ul>
+<li>Global images: <code>http://localhost:8000/images/[subfolder]/[filename]</code></li>
+<li>Vault images: <code>http://localhost:8000/vault/images/[filename]</code></li>
+<li>Co-located images: Relative path from the markdown file</li>
+</ul>
+<h3 id="troubleshooting">Troubleshooting</h3>
+<p><strong>Image not showing?</strong>
+1. Check the file path is correct
+2. Verify the file exists in the expected location
+3. Ensure the file extension is supported
+4. Check browser console for any errors</p>
+<p><strong>Image too large?</strong>
+1. Use HTML <code>&lt;img&gt;</code> tag with width/height attributes
+2. Optimize the image file size
+3. Consider using thumbnails that link to full-size images</p>
+<h2 id="quick-reference">📚 Quick Reference</h2>
+<table>
+<thead>
+<tr>
+<th>Task</th>
+<th>Markdown Syntax</th>
+<th>Example</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Basic image</td>
+<td><code>![Alt](path)</code></td>
+<td><code>![Logo](/images/logo.png)</code></td>
+</tr>
+<tr>
+<td>Image with title</td>
+<td><code>![Alt](path "title")</code></td>
+<td><code>![Logo](/images/logo.png "Company Logo")</code></td>
+</tr>
+<tr>
+<td>Sized image</td>
+<td><code>&lt;img src="path" width="300"&gt;</code></td>
+<td><code>&lt;img src="/images/diagram.png" width="300"&gt;</code></td>
+</tr>
+<tr>
+<td>Linked image</td>
+<td><code>[![Alt](thumb)](full)</code></td>
+<td><code>[![Thumb](/images/thumb.jpg)](/images/full.jpg)</code></td>
+</tr>
+</tbody>
+</table>
+<hr />
+<p><em>💡 Tip: Start with screenshots and simple diagrams, then expand to more complex visual content as your SOP library grows.</em></p>
+    </div>
+</body>
+</html>

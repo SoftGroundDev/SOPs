@@ -1,24 +1,36 @@
 [build]
-  command = "python3 -m venv .venv && source .venv/bin/activate && pip install -r requirements.txt && python3 build_static.py"
-  publish = "dist"
+  command = "npx quartz build"
+  publish = "public"
   
 [build.environment]
-  PYTHON_VERSION = "3.8"
+  NODE_VERSION = "22"
+  NPM_VERSION = "10.9.2"
 
-# Redirect root to index
-[[redirects]]
-  from = "/"
-  to = "/index.html"
-  status = 200
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Frame-Options = "DENY"
+    X-XSS-Protection = "1; mode=block"
+    X-Content-Type-Options = "nosniff"
+    Referrer-Policy = "strict-origin-when-cross-origin"
 
-# Handle clean URLs for vault files
-[[redirects]]
-  from = "/vault/:slug"
-  to = "/vault/:slug.html"
-  status = 200
+[[headers]]
+  for = "/*.js"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
 
-# Handle 404s gracefully
+[[headers]]
+  for = "/*.css"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+[[headers]]
+  for = "/*.woff2"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+# Handle client-side routing for SPA
 [[redirects]]
   from = "/*"
-  to = "/index.html"
+  to = "/404.html"
   status = 404

@@ -1,12 +1,13 @@
 {
   "name": "sops-knowledge-base",
   "version": "1.0.0",
-  "description": "Standard Operating Procedures Knowledge Base with Obsidian vault",
+  "description": "Standard Operating Procedures Knowledge Base with Obsidian vault served via Python HTTP server",
   "main": "serve.py",
   "scripts": {
     "serve": "python3 serve.py",
     "start": "python3 serve.py",
     "dev": "python3 serve.py",
+    "vault": "python3 serve.py",
     "manage": "./sops.sh",
     "open": "./sops.sh open"
   },
@@ -14,7 +15,8 @@
     "obsidian",
     "knowledge-base",
     "sop",
-    "documentation"
+    "documentation",
+    "markdown"
   ],
   "author": "",
   "license": "MIT",

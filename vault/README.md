@@ -1,30 +1,28 @@
 # Welcome to Your SOPs Vault
 
-This is your Standard Operating Procedures (SOPs) knowledge base, powered by Obsidian and served with Quartz.
+This is your Standard Operating Procedures (SOPs) knowledge base, designed for use with Obsidian.
 
 ## Getting Started
 
 - [[Creating New SOPs]]
-- [[Organizing Your Knowledge]]
-- [[Using Tags and Links]]
+- View all SOPs through the web interface at http://localhost:8000
 
 ## Categories
 
 ### Operations
-- [[Daily Procedures]]
-- [[Emergency Protocols]]
-- [[Quality Control]]
+- [[Daily System Health Check]]
 
-### Development
-- [[Code Review Process]]
-- [[Deployment Procedures]]
-- [[Testing Standards]]
+### Emergency
+- [[Incident Response Protocol]]
 
-### Documentation
-- [[Writing Guidelines]]
-- [[Template Standards]]
-- [[Version Control]]
+### Templates
+- [[SOP Template]]
+
+## Quick Links
+
+- [[Creating New SOPs]] - How to create new procedures
+- [[SOP Template]] - Template for new SOPs
 
 ---
 
-*Last updated: {{date}}*
+*Access this vault through the web at http://localhost:8000 or through Obsidian*

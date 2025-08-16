@@ -1,0 +1,25 @@
+{
+  "name": "sops-knowledge-base",
+  "version": "1.0.0",
+  "description": "Standard Operating Procedures Knowledge Base with Obsidian vault",
+  "main": "serve.py",
+  "scripts": {
+    "serve": "python3 serve.py",
+    "start": "python3 serve.py",
+    "dev": "python3 serve.py",
+    "manage": "./sops.sh",
+    "open": "./sops.sh open"
+  },
+  "keywords": [
+    "obsidian",
+    "knowledge-base",
+    "sop",
+    "documentation"
+  ],
+  "author": "",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/SoftGroundDev/SOPs.git"
+  }
+}

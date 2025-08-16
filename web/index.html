@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SOPs Knowledge Base</title>
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA2NCA2NCIgc3R5bGU9ImJhY2tncm91bmQ6ICMyYzNlNTA7IGJvcmRlci1yYWRpdXM6IDhweDsiPjxyZWN0IHdpZHRoPSI2NCIgaGVpZ2h0PSI2NCIgZmlsbD0iIzJjM2U1MCIgcng9IjgiLz48cmVjdCB4PSIxMiIgeT0iMTIiIHdpZHRoPSI0MCIgaGVpZ2h0PSI2IiBmaWxsPSIjMzQ5OGRiIiByeD0iMiIvPjxyZWN0IHg9IjEyIiB5PSIyMiIgd2lkdGg9IjMwIiBoZWlnaHQ9IjQiIGZpbGw9IiNlY2YwZjEiIHJ4PSIyIi8+PHJlY3QgeD0iMTIiIHk9IjMwIiB3aWR0aD0iMzUiIGhlaWdodD0iNCIgZmlsbD0iI2VjZjBmMSIgcng9IjIiLz48cmVjdCB4PSIxMiIgeT0iMzgiIHdpZHRoPSIyNSIgaGVpZ2h0PSI0IiBmaWxsPSIjZWNmMGYxIiByeD0iMiIvPjxjaXJjbGUgY3g9IjQ4IiBjeT0iNDgiIHI9IjYiIGZpbGw9IiNlNzRjM2MiLz48dGV4dCB4PSI0OCIgeT0iNTIiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZvbnQtZmFtaWx5PSJBcmlhbCwgc2Fucy1zZXJpZiIgZm9udC1zaXplPSI4IiBmaWxsPSJ3aGl0ZSIgZm9udC13ZWlnaHQ9ImJvbGQiPiE8L3RleHQ+PC9zdmc+">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background-color: #f8f9fa;
+        }
+        
+        header {
+            background: #2c3e50;
+            color: white;
+            padding: 1rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+        
+        h1 {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .subtitle {
+            opacity: 0.8;
+            font-size: 1.1rem;
+        }
+        
+        .content {
+            display: flex;
+            gap: 2rem;
+            padding: 2rem 0;
+        }
+        
+        .sidebar {
+            flex: 0 0 300px;
+            background: white;
+            border-radius: 8px;
+            padding: 1.5rem;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            height: fit-content;
+            position: sticky;
+            top: 120px;
+        }
+        
+        .main-content {
+            flex: 1;
+            background: white;
+            border-radius: 8px;
+            padding: 2rem;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        
+        .nav-section {
+            margin-bottom: 2rem;
+        }
+        
+        .nav-section h3 {
+            color: #2c3e50;
+            margin-bottom: 1rem;
+            font-size: 1.1rem;
+            border-bottom: 2px solid #ecf0f1;
+            padding-bottom: 0.5rem;
+        }
+        
+        .nav-links {
+            list-style: none;
+        }
+        
+        .nav-links li {
+            margin-bottom: 0.5rem;
+        }
+        
+        .nav-links a {
+            color: #3498db;
+            text-decoration: none;
+            padding: 0.3rem 0.5rem;
+            border-radius: 4px;
+            transition: background-color 0.2s;
+            display: block;
+        }
+        
+        .nav-links a:hover {
+            background-color: #ecf0f1;
+            color: #2980b9;
+        }
+        
+        .card {
+            background: #f8f9fa;
+            border-left: 4px solid #3498db;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            border-radius: 4px;
+        }
+        
+        .card h3 {
+            color: #2c3e50;
+            margin-bottom: 0.5rem;
+        }
+        
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+        
+        .grid-item {
+            background: #f8f9fa;
+            padding: 1.5rem;
+            border-radius: 8px;
+            border: 1px solid #e9ecef;
+        }
+        
+        .grid-item h4 {
+            color: #2c3e50;
+            margin-bottom: 1rem;
+        }
+        
+        .grid-item ul {
+            list-style: none;
+            padding-left: 0;
+        }
+        
+        .grid-item li {
+            margin-bottom: 0.5rem;
+        }
+        
+        .grid-item a {
+            color: #3498db;
+            text-decoration: none;
+        }
+        
+        .grid-item a:hover {
+            text-decoration: underline;
+        }
+        
+        .search-box {
+            width: 100%;
+            padding: 0.8rem;
+            border: 2px solid #e9ecef;
+            border-radius: 4px;
+            font-size: 1rem;
+            margin-bottom: 1rem;
+        }
+        
+        .search-box:focus {
+            outline: none;
+            border-color: #3498db;
+        }
+        
+        @media (max-width: 768px) {
+            .content {
+                flex-direction: column;
+            }
+            
+            .sidebar {
+                flex: none;
+                position: static;
+            }
+            
+            .container {
+                padding: 0 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1>SOPs Knowledge Base</h1>
+            <p class="subtitle">Standard Operating Procedures & Documentation</p>
+        </div>
+    </header>
+    
+    <div class="container">
+        <div class="content">
+            <aside class="sidebar">
+                <input type="text" class="search-box" placeholder="Search procedures..." id="searchBox">
+                
+                <nav class="nav-section">
+                    <h3>Quick Start</h3>
+                    <ul class="nav-links">
+                        <li><a href="#getting-started">Getting Started</a></li>
+                        <li><a href="#creating-sops">Creating New SOPs</a></li>
+                        <li><a href="#templates">Templates</a></li>
+                    </ul>
+                </nav>
+                
+                <nav class="nav-section">
+                    <h3>Categories</h3>
+                    <ul class="nav-links">
+                        <li><a href="#operations">Operations</a></li>
+                        <li><a href="#development">Development</a></li>
+                        <li><a href="#documentation">Documentation</a></li>
+                        <li><a href="#emergency">Emergency</a></li>
+                    </ul>
+                </nav>
+                
+                <nav class="nav-section">
+                    <h3>Tools</h3>
+                    <ul class="nav-links">
+                        <li><a href="vault/" target="_blank">Open Obsidian Vault</a></li>
+                        <li><a href="#templates">View Templates</a></li>
+                        <li><a href="#graph">Knowledge Graph</a></li>
+                    </ul>
+                </nav>
+            </aside>
+            
+            <main class="main-content">
+                <h2 id="getting-started">Welcome to Your SOPs Knowledge Base</h2>
+                
+                <div class="card">
+                    <h3>🚀 Quick Start Guide</h3>
+                    <p>This knowledge base contains all your Standard Operating Procedures. Use the sidebar to navigate between different categories, or use the search box to find specific procedures.</p>
+                </div>
+                
+                <div class="grid">
+                    <div class="grid-item">
+                        <h4>📋 Operations</h4>
+                        <ul>
+                            <li><a href="#">Daily Procedures</a></li>
+                            <li><a href="#">Emergency Protocols</a></li>
+                            <li><a href="#">Quality Control</a></li>
+                            <li><a href="#">Maintenance Schedule</a></li>
+                        </ul>
+                    </div>
+                    
+                    <div class="grid-item">
+                        <h4>💻 Development</h4>
+                        <ul>
+                            <li><a href="#">Code Review Process</a></li>
+                            <li><a href="#">Deployment Procedures</a></li>
+                            <li><a href="#">Testing Standards</a></li>
+                            <li><a href="#">CI/CD Pipeline</a></li>
+                        </ul>
+                    </div>
+                    
+                    <div class="grid-item">
+                        <h4>📚 Documentation</h4>
+                        <ul>
+                            <li><a href="#">Writing Guidelines</a></li>
+                            <li><a href="#">Template Standards</a></li>
+                            <li><a href="#">Version Control</a></li>
+                            <li><a href="#">Review Process</a></li>
+                        </ul>
+                    </div>
+                    
+                    <div class="grid-item">
+                        <h4>🆘 Emergency</h4>
+                        <ul>
+                            <li><a href="#">Incident Response</a></li>
+                            <li><a href="#">Escalation Matrix</a></li>
+                            <li><a href="#">Contact Lists</a></li>
+                            <li><a href="#">Recovery Procedures</a></li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="card">
+                    <h3>📝 Creating New SOPs</h3>
+                    <p>To create a new Standard Operating Procedure:</p>
+                    <ol>
+                        <li>Open the <a href="vault/" target="_blank">Obsidian vault</a></li>
+                        <li>Use the SOP Template from the templates folder</li>
+                        <li>Follow the structure guidelines</li>
+                        <li>Link related procedures</li>
+                        <li>Test the procedure before publishing</li>
+                    </ol>
+                </div>
+                
+                <div class="card">
+                    <h3>🔗 Useful Links</h3>
+                    <ul>
+                        <li><a href="vault/" target="_blank">Browse Obsidian Vault</a></li>
+                        <li><a href="vault/templates/" target="_blank">SOP Templates</a></li>
+                        <li><a href="vault/Creating%20New%20SOPs.md" target="_blank">SOP Creation Guide</a></li>
+                    </ul>
+                </div>
+            </main>
+        </div>
+    </div>
+    
+    <script>
+        // Simple search functionality
+        document.getElementById('searchBox').addEventListener('input', function(e) {
+            const searchTerm = e.target.value.toLowerCase();
+            const links = document.querySelectorAll('.nav-links a, .grid-item a');
+            
+            links.forEach(link => {
+                const text = link.textContent.toLowerCase();
+                const listItem = link.closest('li') || link.closest('.grid-item');
+                
+                if (text.includes(searchTerm) || searchTerm === '') {
+                    listItem.style.display = 'block';
+                } else {
+                    listItem.style.display = 'none';
+                }
+            });
+        });
+        
+        // Smooth scrolling for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+    </script>
+</body>
+</html>

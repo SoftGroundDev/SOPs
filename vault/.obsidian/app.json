@@ -1,0 +1,13 @@
+{
+  "legacyEditor": false,
+  "livePreview": true,
+  "defaultViewMode": "preview",
+  "attachmentFolderPath": "assets",
+  "newLinkFormat": "shortest",
+  "useMarkdownLinks": true,
+  "newFileLocation": "current",
+  "promptDelete": true,
+  "alwaysUpdateLinks": true,
+  "showLineNumber": true,
+  "spellcheck": true
+}
